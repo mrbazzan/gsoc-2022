@@ -1,0 +1,16 @@
+#!/usr/bin/env python3
+
+import logging
+import sys
+
+from transpose.application import Application
+
+
+if __name__ == "__main__":
+    log = logging.getLogger()
+
+    try:
+        Application().run()
+    except Exception:
+        log.exception("An unexpected error occurred")
+        sys.exit(1)
