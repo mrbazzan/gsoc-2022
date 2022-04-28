@@ -17,6 +17,13 @@ class TestCommands(unittest.TestCase):
         )
         self.assertIn(b'transfer10,100', result.stdout)
 
+    def test_rail_fence_encrypt(self):
+        result = subprocess.run(
+            ['transpose', 'rail_fence', "WE ARE DISCOVERED. RUN AT ONCE. AT ONCE.", '-c', '--rail', '6'],
+            capture_output=True
+        )
+        self.assertIn(b"WSDNC ECRCE AOUE RVNA EIEEAOTN DRTO", result.stdout)
+
 
 if __name__ == "__main__":
     unittest.main()
