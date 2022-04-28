@@ -102,6 +102,12 @@ like the following:
       -d, --decrypt  decrypt message
       ...
 
+TO RUN TESTS
+-----
+::
+
+    $ python3 -m unittest tests
+
 NOTES
 -----
 
