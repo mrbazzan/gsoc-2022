@@ -12,7 +12,7 @@ def _import_module(path):
     try:
         return import_module(f"transpose.plugins.{path.stem}")
     except ModuleNotFoundError:
-        print("Can't import %s" % path.stem)  # TODO: Find better message
+        print("Can't import package %s" % path.stem)  # TODO: Find better message
         sys.exit(2)
 
 
@@ -27,9 +27,11 @@ class Application():
         plugins = []
         plugin_path = Path(resource_filename(__name__, "plugins/"))
         for path in plugin_path.iterdir():
-            if path.is_file() and path.stem != "__init__":
-                mod = _import_module(path)
-                plugins.append(getattr(mod, "plugin"))
+            if path.is_file() or path.stem == "__pycache__":
+                continue
+            plugin = _import_module(path)
+            plugins.append(plugin.Plugin())
+
         return plugins
 
     def run(self) -> None:
