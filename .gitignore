@@ -7,3 +7,5 @@ eggs/
 sdist/
 *.egg-info/
 *.egg
+
+.idea/
