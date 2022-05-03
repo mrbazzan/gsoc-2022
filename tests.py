@@ -19,10 +19,10 @@ class TestCommands(unittest.TestCase):
 
     def test_rail_fence_encrypt(self):
         result = subprocess.run(
-            ['transpose', 'rail_fence', "WE ARE DISCOVERED. RUN AT ONCE. AT ONCE.", '-c', '--rail', '6'],
+            ['transpose', 'rail_fence', "WE ARE DISCOVERED. RUN AT ONCE. AT ONCE........", '-c', '--rail', '6'],
             capture_output=True
         )
-        self.assertIn(b"WSDNC ECRCE AOUE RVNA EIEEAOTN DRTO", result.stdout)
+        self.assertIn(b"WVTC EOEAONE. ACRNNO.. RSEUCT.. EIDREA.. D...", result.stdout)
 
 
 if __name__ == "__main__":

@@ -6,25 +6,41 @@ from transpose.cipher import Cipher
 
 
 class RailFenceCipher(Cipher):
-    def encrypt(self, msg: str, *args, **kwargs) -> str:
 
-        # Ensure only alpha-numeric characters
-        msg = [char for char in msg if char.isalnum()]
-        msg_len = len(msg)
-
-        rails = kwargs["rails"]
-        rail_fence = [[] for _ in range(rails)]
-
+    @staticmethod
+    def assert_str_length(string, rails):
+        assert isinstance(string, list)
+        assert isinstance(rails, int)
         try:
-            assert msg_len % (2*(rails-1)) == 0
+            assert len(string) % (2*(rails-1)) == 0
         except AssertionError:
             print("Length of string to be must be multiple of 2(rails-1)")
             sys.exit(2)
 
-        # [0, 1, 2, 3, 2, 1]
+    @staticmethod
+    def remove_space(msg):
+        """Remove space from a string"""
+        return [char for char in msg if not char.isspace()]
+
+    def encrypt(self, msg: str, *args, **kwargs) -> str:
+        """Encrypt plaintext to ciphertext using rails"""
+
+        # Ensure to skip all space
+        msg = self.remove_space(msg)
+        rails = kwargs.get("rails")
+
+        rail_fence = [[] for _ in range(rails)]
+
+        self.assert_str_length(msg, rails)
+
+        # This is the order we want to pick characters.
         _index = list(chain(range(rails-1), range(rails-1, 0, -1)))
         for i, element in enumerate(msg):
-            index = _index[i % (rails+1)]
+            # This is done in order to get the right index depending on the rails.
+            # If rails is 2, `_index` is 2[0, 1]
+            # If rails is 4, `_index` is 6[0, 1, 2, 3, 2, 1]
+            # The formula, 2*(rails-1), is used to get the length of `_index`
+            index = _index[i % (2*(rails-1))]
             rail_fence[index].append(element)
 
         text = " ".join(["".join(rail) for rail in rail_fence])
