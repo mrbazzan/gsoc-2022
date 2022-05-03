@@ -47,4 +47,19 @@ class RailFenceCipher(Cipher):
         return text
 
     def decrypt(self, ciphertext: str, *args, **kwargs) -> str:
-        pass
+        """Decrypt ciphertext to plaintext using rails"""
+        text = [list(t) for t in ciphertext.split()]
+
+        ciphertext = self.remove_space(ciphertext)
+        rails = kwargs.get("rails")
+
+        self.assert_str_length(ciphertext, rails)
+
+        plaintext = ""
+
+        _index = list(chain(range(rails-1), range(rails-1, 0, -1)))
+        for i in range(len(ciphertext)):
+            index = _index[i % (2 * (rails - 1))]
+            plaintext += text[index].pop(0)
+
+        return plaintext

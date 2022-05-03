@@ -24,6 +24,13 @@ class TestCommands(unittest.TestCase):
         )
         self.assertIn(b"WVTC EOEAONE. ACRNNO.. RSEUCT.. EIDREA.. D...", result.stdout)
 
+    def test_rail_fence_decrypt(self):
+        result = subprocess.run(
+            ['transpose', 'rail_fence', "WVTC EOEAONE. ACRNNO.. RSEUCT.. EIDREA.. D...", '-d', '--rail', '6'],
+            capture_output=True
+        )
+        self.assertIn(b"WEAREDISCOVERED.RUNATONCE.ATONCE.......", result.stdout)
+
 
 if __name__ == "__main__":
     unittest.main()
